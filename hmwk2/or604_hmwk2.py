@@ -51,14 +51,18 @@ def scrapeRestaurant(location):
 
 # Iterate over all states and create an list to hold the location dict
 def agreggateRestaurantInfo():
+    restaurants = []
+    i = 0
     for state in stateDict:
+        print state
+        i + 1
+        print i 
         stateUrl = stateRoot + stateDict[state]
         # print urlState
         stateReq = urllib2.Request(stateUrl, headers= hdr)
         soupState = BeautifulSoup(urllib2.urlopen(stateReq), "lxml")
         storeStateTable = soupState.findAll('ul', {'class':'list-unstyled-links'})
 
-        restaurants = []
         for storeCode in storeStateTable:
 
             storeLinkList=[]
@@ -67,12 +71,12 @@ def agreggateRestaurantInfo():
 
             # scrape every url for every restaurant.
             for location in storeLinkList:
+                print location
                 restaurant = scrapeRestaurant(location)
                 # print restaurant
                 restaurants.append(restaurant)
 
-    print storeLinkList
-
+    print restaurants
     keys = restaurants[0].keys()
 
     with open('mcdonalds-info.csv','wb') as output_file:
@@ -82,24 +86,24 @@ def agreggateRestaurantInfo():
 # Call function that agreggates all McDonalds information
 agreggateRestaurantInfo()
 
-#Save CSV Values in Database
-def saveMcdonaldsResults():
-    conn = sqlite3.connect('database2.db')
-    c = conn.cursor()
-    c = conn.cursor()
-    c.execute('''DROP TABLE IF EXISTS McdonaldsLocations''')
-    c.execute('''CREATE TABLE McdonaldsLocations
-            (latitude numeric, longitude numeric, storeNumber int, city text, state text, streetAddress varchar,  zip int)
-            ''')
-    with open ('mcdonalds-info.csv') as g:
-        dbReader = csv.reader(g)
-        for i in dbReader:
-            c.execute("INSERT INTO McdonaldsLocations VALUES (?,?,?,?,?,?,?)", i)
-    conn.commit()
-    conn.close()
+# #Save CSV Values in Database
+# def saveMcdonaldsResults():
+#     conn = sqlite3.connect('database2.db')
+#     c = conn.cursor()
+#     c = conn.cursor()
+#     c.execute('''DROP TABLE IF EXISTS McdonaldsLocations''')
+#     c.execute('''CREATE TABLE McdonaldsLocations
+#             (latitude numeric, longitude numeric, storeNumber int, city text, state text, streetAddress varchar,  zip int)
+#             ''')
+#     with open ('mcdonalds-info.csv') as g:
+#         dbReader = csv.reader(g)
+#         for i in dbReader:
+#             c.execute("INSERT INTO McdonaldsLocations VALUES (?,?,?,?,?,?,?)", i)
+#     conn.commit()
+#     conn.close()
 
 #Call function to save McDonalds results to database2
-saveMcdonaldsResults()
+# saveMcdonaldsResults()
 
  # Calculate McDonalds within 100 miles of all New York McDonalds
  # Center coordinates for New York state 43.2994 N, -74.2179 W
