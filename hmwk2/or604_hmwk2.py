@@ -4,7 +4,8 @@ import urllib2
 import re
 from geopy.geocoders import Nominatim as nom
 import json
-import googlemaps
+import sqlite3
+# import googlemaps
 
 def reverseGeocode(latitude, longitude):
     geolocator = nom()
@@ -12,22 +13,13 @@ def reverseGeocode(latitude, longitude):
 
 def getStateDict():
     stateTable = open('state_table.csv')
-    stateCsv = csv.reader(stateTable)
     stateDict = {}
-    for row in stateCsv:
-        stateName = row[0]
-        stateAbrv = row[1]
+    for row in csv.reader(stateTable):
+        stateName, stateAbrv = row[0], row[1]
         stateDict[stateName] = stateAbrv
     return stateDict
-# Import state abreviations
-stateDict = getStateDict()
 
-# Define Restaurant Chain URL root
-stateRoot = r'https://www.menuism.com/restaurant-locations/mcdonalds-21019/us/'
-# Header element so the page does not treat routine as a web bot
-hdr = {'User-Agent' : "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Ubuntu/11.04 Chromium/12.0.742.112 Chrome/12.0.742.112 Safari/534.30"}
-
-def scrapeRestaurant(location):
+def scrapeRestaurant(location, hdr):
     locationReq = urllib2.Request(location, headers= hdr)
     pageLocation = urllib2.urlopen(locationReq)
     soupLocation = BeautifulSoup(pageLocation, "lxml")
@@ -44,66 +36,71 @@ def scrapeRestaurant(location):
     # If we were unable to get the address from the HTML, we'll
     # have to use reverse geocoding:
     if not restaurant['streetAddress']:
-        lat = restaurant['latitude']
-        lon = restaurant['longitude']
-        restaurant['streetAddress'] = reverseGeocode(lat, lon)
+        restaurant['streetAddress'] = reverseGeocode(restaurant['latitude'], restaurant['longitude'])
     return restaurant
 
 # Iterate over all states and create an list to hold the location dict
 def agreggateRestaurantInfo():
-    restaurants = []
+    # Header element so the page does not treat routine as a web bot
+    hdr = {'User-Agent' : "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) \
+    Ubuntu/11.04 Chromium/12.0.742.112 Chrome/12.0.742.112 Safari/534.30"}
     i = 0
-    for state in stateDict:
-        print state
-        i + 1
-        print i 
-        stateUrl = stateRoot + stateDict[state]
-        # print urlState
-        stateReq = urllib2.Request(stateUrl, headers= hdr)
-        soupState = BeautifulSoup(urllib2.urlopen(stateReq), "lxml")
-        storeStateTable = soupState.findAll('ul', {'class':'list-unstyled-links'})
+    csv_headers = ['latitude', 'longitude', 'storeNumber', 'addressLocality', 'addressRegion',
+    'streetAddress', 'postalCode']
+    # Define Restaurant Chain URL root
+    stateRoot = 'https://www.menuism.com/restaurant-locations/mcdonalds-21019/us/'
 
-        for storeCode in storeStateTable:
+    # Import state abreviations
+    stateDict = getStateDict()
 
-            storeLinkList=[]
-            for storeLink in storeCode.find_all('a'):
-                storeLinkList.append(storeLink.get('href'))
+    with open('mcdonalds-info.csv','w') as output_file:
+        dict_writer = csv.DictWriter(output_file, csv_headers)
+        dict_writer.writeheader()
 
-            # scrape every url for every restaurant.
-            for location in storeLinkList:
-                print location
-                restaurant = scrapeRestaurant(location)
-                # print restaurant
-                restaurants.append(restaurant)
+        for state in stateDict:
+            i += 1
+            print i, state
+            restaurants_in_state = []
+            stateReq = urllib2.Request(stateRoot + stateDict[state], headers=hdr)
+            soupState = BeautifulSoup(urllib2.urlopen(stateReq), "lxml")
+            storeStateTable = soupState.findAll('ul', {'class':'list-unstyled-links'})
 
-    print restaurants
-    keys = restaurants[0].keys()
+            for storeCode in storeStateTable:
+                for storeLink in storeCode.find_all('a'):
+                    location = storeLink.get('href')
+                    restaurant = scrapeRestaurant(location, hdr)
+                    print location, restaurant
+                    restaurants_in_state.append(restaurant)
 
-    with open('mcdonalds-info.csv','wb') as output_file:
-        dict_writer = csv.DictWriter(output_file, keys)
-        dict_writer.writerows(restaurants)
+            # Write all restaurants in the current state to CSV
+            dict_writer.writerows(restaurants_in_state)
+
+#Save CSV Values in Database
+def saveMcdonaldsResults():
+    conn = sqlite3.connect('database2.db')
+    c = conn.cursor()
+    c.execute('''DROP TABLE IF EXISTS McdonaldsLocations''')
+    c.execute('''CREATE TABLE McdonaldsLocations
+    (latitude numeric, longitude numeric, storeNumber int, city text,
+    state text, streetAddress varchar,  zip int)''')
+    # ['latitude', 'longitude', 'storeNumber', 'addressLocality', 'addressRegion',
+    # 'streetAddress', 'postalCode']
+    with open ('mcdonalds-info.csv') as g:
+        reader = csv.reader(g)
+        next(reader, None) # skip header row
+        print "saving csv records to database:"
+        for i in reader:
+            print i
+            c.execute("INSERT INTO McdonaldsLocations VALUES (?,?,?,?,?,?,?)", i)
+            conn.commit()
+    conn.close()
+
 
 # Call function that agreggates all McDonalds information
 agreggateRestaurantInfo()
 
-# #Save CSV Values in Database
-# def saveMcdonaldsResults():
-#     conn = sqlite3.connect('database2.db')
-#     c = conn.cursor()
-#     c = conn.cursor()
-#     c.execute('''DROP TABLE IF EXISTS McdonaldsLocations''')
-#     c.execute('''CREATE TABLE McdonaldsLocations
-#             (latitude numeric, longitude numeric, storeNumber int, city text, state text, streetAddress varchar,  zip int)
-#             ''')
-#     with open ('mcdonalds-info.csv') as g:
-#         dbReader = csv.reader(g)
-#         for i in dbReader:
-#             c.execute("INSERT INTO McdonaldsLocations VALUES (?,?,?,?,?,?,?)", i)
-#     conn.commit()
-#     conn.close()
-
 #Call function to save McDonalds results to database2
-# saveMcdonaldsResults()
+saveMcdonaldsResults()
 
  # Calculate McDonalds within 100 miles of all New York McDonalds
  # Center coordinates for New York state 43.2994 N, -74.2179 W
