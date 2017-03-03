@@ -102,22 +102,4 @@ agreggateRestaurantInfo()
 #Call function to save McDonalds results to database2
 saveMcdonaldsResults()
 
- # Calculate McDonalds within 100 miles of all New York McDonalds
- # Center coordinates for New York state 43.2994 N, -74.2179 W
-#  for i in restaurants:
-#      newYorkPoint = (43.2994, -174.2179)
-#      newYorkRestaurantLocation = restaurant['latitude'], restaurant['longitude']
-#      print newYorkRestaurantLocation
-#      newYorkRestaurantStoreNumber = restaurant['storeNumber']
-#      newYorkDistance = vincenty(newYorkPoint, newYorkRestaurantLocation).miles
-#      if newYorkDistance <= 100:
-#          print newYorkRestaurantLocation, newYorkRestaurantStoreNumber
-#
-# for j in restaurants:
-#     selectedThreeNY = []
-#     if restaurant['addressRegion'] == "NY":
-#         selectedThreeNY.append(restaurants[0:3])
-#     print selectedThreeNY
-# json_str = json.dumps(selectedThreeNY)
-#
-# gmaps = googlemaps.Client(key='KEY')
+#Problem 2 and 3 queries in a seperate Python file 
