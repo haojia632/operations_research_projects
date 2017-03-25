@@ -7,5 +7,5 @@ This script scrapes ride times for my 'favorite' rides and inserts them into a d
 
 <h2>Hmwk2</h2>
 <b>McDonalds Web Scraper</b> <br />
-This script scrapes the locations of all Mcdonalds in the country from the Menuism site and loads them in a database. I then map out a number of New York McDonalds by distance 
+This script scrapes the locations of all Mcdonalds in the country from the Menuism site and loads them in a database. I, then, map out a number of New York McDonalds by distance 
 and various parameters.
