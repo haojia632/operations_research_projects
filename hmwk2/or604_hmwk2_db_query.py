@@ -3,22 +3,22 @@ import sqlite3
 import googlemaps
 
 
-# Problem 2 'I will never look at McDonalds the same!' 
+# Problem 2 'I will never look at McDonalds the same!'
 
-#calculate distance function 
+#calculate distance function
 def calculate_distance(lat1, lon1, lat2, lon2):
     point1 = (lat1, lon1)
     point2 = (lat2, lon2)
     return vincenty(point1, point2).miles
 
 
-#Set Database, calculate function and cursor 
+#Set Database, calculate function and cursor
 conn = sqlite3.connect('database2.db')
 conn.create_function("calculate_distance", 4, calculate_distance)
 cursor = conn.cursor()
 
 
-#Problem 2 
+#Problem 2
 cursor.execute('''
 SELECT
     A.storeNumber, Max(a.distance)
@@ -41,13 +41,13 @@ GROUP BY A.storeNumber
 ''')
 
 hundredMileMcDonaldsresults = cursor.fetchall()
-        
+
 for row in hundredMileMcDonaldsresults:
-    print row 
-    
-    
+    print row
+
+
 #Problem 3, part 1
-    
+
 #Select 3 McDonalds in NY
 cursor.execute(''' SELECT latitude,longitude, storeNumber FROM McDonaldsLocations WHERE state = 'NY' LIMIT 3 ''')
 threeNYdb = cursor.fetchall()
@@ -60,7 +60,7 @@ gmaps.distance_matrix(threeNYdb, threeNYdb, mode="driving")
 
 #Problem 3, part 2
 
-#Build Query to find top 10 closes McDonalds in NY that are closest to the 3 selected 
+#Build Query to find top 10 closest McDonalds in NY that are closest to the 3 selected 
 cursor.execute('''
     SELECT
         NY.storeNumber, three.storeNumber,
@@ -77,4 +77,4 @@ LIMIT 10''')
 tenMcDonaldsResults = cursor.fetchall()
 
 for row in tenMcDonaldsResults:
-    print row 
+    print row
