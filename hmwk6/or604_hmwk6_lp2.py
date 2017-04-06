@@ -63,6 +63,15 @@ myModel2.write('DominoTransportation6_p2.lp')
 for m in ardentDict:
     constrName = 'Demand_%s' % s
     myConstr[constrName] = myModel2.addConstr(quicksum(myVars[d,str(s)] for d in distFlourDemand) == 1, name = constrName)
+
+# create supply contraint
+myConstr = {}
+for d in ardentDict:
+    constrName = 'Supply %s' % d
+    myConstr[constrName] = myModel2.addConstr(quicksum(myVars[d,str(s)] * distFlourDemand[d] for d in distFlourDemand) <= ardentDict[s][2], name = constrName)
+myModel.update()
+
+
     
 myModel2.optimize()
 

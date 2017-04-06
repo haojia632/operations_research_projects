@@ -538,3 +538,113 @@ Pool objective bound 7.05287e+08
 
 Optimal solution found (tolerance 1.00e-04)
 Best objective 7.052870798753e+08, best bound 7.052870798753e+08, gap 0.0000%
+
+Gurobi 7.0.2 (mac64, Python) logging started Tue Mar 28 20:53:03 2017
+
+Optimize a model with 4907 rows, 78256 columns and 156512 nonzeros
+Variable types: 0 continuous, 78256 integer (78256 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+03]
+  Objective range  [4e-02, 7e+02]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+05]
+Found heuristic solution: objective 585019
+Presolve time: 0.48s
+Presolved: 4907 rows, 78256 columns, 156512 nonzeros
+Variable types: 0 continuous, 78256 integer (78256 binary)
+
+Root relaxation: objective 8.673142e+04, 5650 iterations, 0.17 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 86731.4198    0   22 585018.879 86731.4198  85.2%     -    0s
+H    0     0                    86775.676984 86731.4198  0.05%     -    1s
+H    0     0                    86743.972941 86731.4198  0.01%     -    2s
+     0     0 86732.1652    0   30 86743.9729 86732.1652  0.01%     -    2s
+     0     0 86732.1652    0   18 86743.9729 86732.1652  0.01%     -    3s
+     0     0 86732.1652    0   23 86743.9729 86732.1652  0.01%     -    3s
+     0     0 86732.4485    0   27 86743.9729 86732.4485  0.01%     -    3s
+     0     0 86732.5169    0   35 86743.9729 86732.5169  0.01%     -    3s
+     0     2 86732.5169    0   35 86743.9729 86732.5169  0.01%     -    4s
+   345   334 86735.7923  164   20 86743.9729 86732.6051  0.01%   1.3    5s
+H  586   550                    86743.361714 86732.6051  0.01%   1.3    5s
+  2356  1714 86738.0483  183   27 86743.3617 86733.2763  0.01%   3.9   10s
+  6110  4443 86734.8613  142   29 86743.3617 86733.3435  0.01%   3.9   15s
+  9997  7784 86736.9497  169   30 86743.3617 86733.4441  0.01%   3.7   20s
+ 14066 11441 86737.4735  280   27 86743.3617 86733.4835  0.01%   3.5   25s
+ 19352 16059 86737.1485  310   36 86743.3617 86733.5364  0.01%   3.3   30s
+ 21061 17645 86736.0510  123   30 86743.3617 86733.5556  0.01%   3.3   35s
+ 21083 17660 86738.1153  163   77 86743.3617 86734.3172  0.01%   3.3   40s
+ 21109 17677 86737.5059  225   96 86743.3617 86734.5931  0.01%   3.3   45s
+ 21124 17692 86734.6319   28  102 86743.3617 86734.6319  0.01%   3.4   50s
+
+Cutting planes:
+  Gomory: 7
+  Cover: 1
+  MIR: 43
+  StrongCG: 2
+  Flow cover: 4
+  Zero half: 1
+
+Explored 21144 nodes (79570 simplex iterations) in 50.57 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 4: 86743.4 86744 86775.7 585019 
+Pool objective bound 86734.7
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.674336171397e+04, best bound 8.673469822337e+04, gap 0.0100%
+Optimize a model with 4907 rows, 78256 columns and 156512 nonzeros
+Variable types: 0 continuous, 78256 integer (78256 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+03]
+  Objective range  [4e-02, 7e+02]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+05]
+Found heuristic solution: objective 585019
+Presolve time: 0.47s
+Presolved: 4907 rows, 78256 columns, 156512 nonzeros
+Variable types: 0 continuous, 78256 integer (78256 binary)
+
+Root relaxation: objective 8.673142e+04, 5650 iterations, 0.16 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 86731.4198    0   22 585018.879 86731.4198  85.2%     -    0s
+H    0     0                    86775.676984 86731.4198  0.05%     -    1s
+H    0     0                    86743.972941 86731.4198  0.01%     -    2s
+     0     0 86732.1652    0   30 86743.9729 86732.1652  0.01%     -    2s
+     0     0 86732.1652    0   18 86743.9729 86732.1652  0.01%     -    3s
+     0     0 86732.1652    0   23 86743.9729 86732.1652  0.01%     -    3s
+     0     0 86732.4485    0   27 86743.9729 86732.4485  0.01%     -    3s
+     0     0 86732.5169    0   35 86743.9729 86732.5169  0.01%     -    3s
+     0     2 86732.5169    0   35 86743.9729 86732.5169  0.01%     -    3s
+   449   423 86736.0719  197   21 86743.9729 86732.6051  0.01%   1.3    5s
+H  586   550                    86743.361714 86732.6051  0.01%   1.3    5s
+  2695  1865 86736.2756  222   30 86743.3617 86733.2763  0.01%   4.2   10s
+  6110  4443 86734.8613  142   29 86743.3617 86733.3435  0.01%   3.9   15s
+ 10712  8413 86733.5965   23   42 86743.3617 86733.4630  0.01%   3.7   20s
+ 15587 12754 86737.0943  126   32 86743.3617 86733.5002  0.01%   3.4   25s
+ 21061 17645 86736.0510  123   30 86743.3617 86733.5556  0.01%   3.3   34s
+ 21067 17649 86735.0127   81   52 86743.3617 86733.5556  0.01%   3.3   35s
+ 21089 17664 86737.5059  225   91 86743.3617 86734.4404  0.01%   3.3   40s
+ 21117 17682 86734.6014   39  106 86743.3617 86734.6014  0.01%   3.3   45s
+
+Cutting planes:
+  Gomory: 7
+  Cover: 1
+  MIR: 43
+  StrongCG: 2
+  Flow cover: 4
+  Zero half: 1
+
+Explored 21144 nodes (79570 simplex iterations) in 48.36 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 4: 86743.4 86744 86775.7 585019 
+Pool objective bound 86734.7
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.674336171397e+04, best bound 8.673469822337e+04, gap 0.0100%
