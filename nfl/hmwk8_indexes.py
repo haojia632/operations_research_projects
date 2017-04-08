@@ -6,6 +6,7 @@ Created on Tue Mar 28 15:04:58 2017
 """
 import csv
 import sqlite3
+from gurobipy import *
 
 # read csv files
 nflTeamReader = csv.reader(open('nfl_team_data.csv', 'rU'))
@@ -21,7 +22,7 @@ for i in nflTeamReader:
     nflTeamInfo.append([i[0], i[1], i[2], i[3], i[4]])
     nflTeamDict[i[0]] =[i[1], i[2], i[3], i[4]]
 
-# Away games list
+# Away/Home games list
 awayGamesList = []
 for i in awayHomeReader:
     awayGamesList.append([i[0],i[1]])
@@ -29,24 +30,25 @@ for i in awayHomeReader:
 
 # week, timeslot, network list 
 weekSlotNetList =[]
+timeSlots ={}
 for i in weekSlotNetworkReader:
     weekSlotNetList.append([i[0],i[1],i[2]])
+    timeSlots[(i[0], i[1])] = i[1], i[2]
+#timeSlots = {x:[] for x in range(1,18)}
 
-timeSlots = {x:[] for x in range(1,18)}
-primeTime = set(('MON1', 'MON2','THUN','SUNN'))
+primeTime = set(('MON1','MON2','THUN','SUNN'))
 
 
-variableList =[]
+allowableGames =[]
 for m in awayGamesList:
     if nflTeamDict[m[0]][3] + nflTeamDict[m[1]][3] >= 4:
-        for week in timeSlots[week]:
+        for week in timeSlots:
+            for s in timeSlots[week]:
+                if s[0] in primeTime:
+                    qp =(nflTeamDict[m[0]][3] + nflTeamDict[m[1]][3]) * 2
+                    allowableGames.append((m[0],m[1], week, s[0], s[1],qp))
 
-            
-    for j in weekSlotNetList:
-        for k in nflTeamInfo:
-            if 
-            variableList.append(i[0],i[0])
-            
+
             
             
 # Conference Dictionary
@@ -90,7 +92,6 @@ for i in nflTeamInfo:
     if i[1] == 'NFC' and i[2] == 'EAST':
         nfcEastList.append(i[0])        
         confDict['NFC']['EAST'] = nfcEastList
-print confDict
 
 # List of West Coast Teams
 westCoastTeams =[]
@@ -142,3 +143,9 @@ varString = '''CREATE TABLE IF NOT EXISTS tblGameVariables (
             QUALPOINT REAL); '''
 myCursor.execute(varString)
 conn.commit()
+
+#Create Model 
+#myModel = Model()
+#myModel.ModelSense = GRB.MINIMIZE
+#myModel.update()
+
