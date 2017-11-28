@@ -9,3 +9,16 @@ This script scrapes ride times for my 'favorite' rides and inserts them into a d
 <b>McDonalds Web Scraper</b> <br />
 This script scrapes the locations of all Mcdonalds in the country from the Menuism site and loads them in a database. I, then, map out a number of New York McDonalds by distance 
 and various parameters.
+
+<h2> Hmwk 5</h2>
+<b>Dominos Scraper</b>
+This script scrapes the locations of all Dominos in the country from the Menuism site and loads them in a database. 
+
+<h2> Hmwk 6</h2>
+<b>Dominos Supply Chain Optimization</b>
+This script builds a Gurobi optimization model to place distribution centers with different supplies (i.e. flour, cheese, tomoto sauce), in accordance to supply and demand constraints.
+
+
+
+
+
