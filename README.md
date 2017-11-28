@@ -23,3 +23,6 @@ This script builds a Gurobi optimization model to place distribution centers wit
 In this class, our final project is to schedule teams and locations for all games during one NFL season. The script shows the initial project set up. I completed a number of contraints (not included) to adhere to the numerous rules, including traditions, Thanksgiving, international games, and television network divisions. 
 
 
+<h2>rrss</h2>
+<b>Preliminary Scraper for Restaurant DSS (Decision Support System)</b><br />
+To gather informational data for a DSS class project, I built a small scraper to detect retail space available for potential restaurants.
