@@ -19,7 +19,7 @@ This script scrapes the locations of all Dominos in the country from the Menuism
 This script builds a Gurobi optimization model to place distribution centers with different supplies (i.e. flour, cheese, tomoto sauce), in accordance to supply and demand constraints.
 
 <h2>nfl</h2>
-<b>American Footbal Scheduling Optimization</b><br />
+<b>American Football Scheduling Optimization</b><br />
 In this class, our final project is to schedule teams and locations for all games during one NFL season. The script shows the initial project set up. I completed a number of contraints (not included) to adhere to the numerous rules, including traditions, Thanksgiving, international games, and television network divisions. 
 
 
